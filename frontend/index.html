@@ -1,0 +1,164 @@
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="http://static.laserdeathstehr.ca/tree_css/reset-fonts-grids.css">
+	<link rel="stylesheet" type="text/css" href="http://static.laserdeathstehr.ca/tree_css/base.css">
+<script type="text/javascript" 
+	        src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">
+	  // You may specify partial version numbers, such as "1" or "1.3",
+	  //  with the same result. Doing so will automatically load the 
+	  //  latest version matching that partial revision pattern 
+	  //  (i.e. both 1 and 1.3 would load 1.3.2 today).
+	  google.load("jquery", "1.3.2");
+
+	  google.setOnLoadCallback(function() {
+	    // Place init code here instead of $(document).ready()
+		fillSongOptions()
+		getQueuedSongs()
+		getNowPlaying()
+		var refreshId = setInterval(function() {
+			getQueuedSongs()
+			getNowPlaying()
+		}, 3000);
+		
+		
+		$('#selectSubmit').click(function(){
+			
+			var dataString = "value="+$('#songOptions').val()
+			
+			$.ajax({
+			    url:"http://mytree.laserdeathstehr.com/queue_song",
+				type: "POST",
+			    data: dataString,
+			    })
+			
+			getQueuedSongs()
+		})
+		
+		
+});
+
+function fillSongOptions(){
+	//load all the songs via json
+	
+	$.getJSON("http://mytree.laserdeathstehr.com/all_songs",
+	        function(data){
+				$.each(data, function(i,item){
+					
+	            	$('#songOptions').append(
+					        $('<option></option>').val(item.id).html(item.name)
+					    )
+	          })
+	        })
+	
+}
+
+function getQueuedSongs(){
+	//load all the songs via json
+	
+	$.getJSON("http://mytree.laserdeathstehr.com/queued_songs",
+	        function(data){
+				$('#queueList').find('li').remove()
+				$.each(data, function(i,item){
+					
+	            	$('#queueList').append(
+					        $('<li></li>').html(item.name)
+					    )
+	          })
+	        })
+	
+}
+
+function getNowPlaying(){
+	$.getJSON("http://mytree.laserdeathstehr.com/now_playing",
+	        
+			function(data){
+			
+			$(".nowPlaying").html(data.name)
+	        })
+}
+
+function validateFileExtension(fld) {
+	if(!/(\.mid|\.midi|\.MID|\.MIDI)$/i.test(fld.value)) {
+		alert("Invalid file type.");
+		fld.form.reset();
+		fld.focus();
+		return false;
+	}
+	return true;
+}
+
+</script>
+	
+</head>
+
+<body>
+<div id="doc3" class="yui-t4">
+
+	<div id="hd">
+	<h1>Control My Christmas Tree!!!</h1>
+	</div>
+	<div id="bd">
+		<div id="yui-main">
+			<div class="yui-b">
+				<div id="content">
+				<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="400" height="320" id="utv134761"><param name="flashvars" value="autoplay=false&amp;brand=embed&amp;cid=2010871"/><param name="allowfullscreen" value="true"/><param name="allowscriptaccess" value="always"/><param name="movie" value="http://www.ustream.tv/flash/live/1/2010871"/><embed flashvars="autoplay=false&amp;brand=embed&amp;cid=2010871" width="400" height="320" allowfullscreen="true" allowscriptaccess="always" id="utv134761" name="utv_n_851509" src="http://www.ustream.tv/flash/live/1/2010871" type="application/x-shockwave-flash" /></object><a href="http://www.ustream.tv/" style="padding: 2px 0px 4px; width: 400px; background: #ffffff; display: block; color: #000000; font-weight: normal; font-size: 10px; text-decoration: underline; text-align: center;" target="_blank">Live Broadcast by Ustream.TV</a>
+
+				<b>Now Playing: </b><span class="nowPlaying"></span>
+
+				<div id="selectSong">
+					<br>
+					<p><b>Submit an existing song:</b></p>
+				<select id="songOptions">
+				</select>
+				<input type="submit" value="Submit" id='selectSubmit' />
+				</div>
+				
+				<div id="songUpload">
+				<br>
+				<p><b>Submit your own song:</b></p>
+				<form id ="uploadForm" name="upload" enctype="multipart/form-data" action="http://mytree.laserdeathstehr.com/upload" method="post" onsubmit="return validateFileExtension(this.file)">
+				Name:
+				<input type="text" name="name" />
+				<br />
+				File:
+				<input type="file" name="file" />
+				<input type="submit" value="Submit" id='uploadSubmit' />
+				</form>
+				</div>
+				<br>
+				<br>
+					<embed width="563" height="266" type="application/x-shockwave-flash" flashvars="brandId=1&amp;channelId=2010871&amp;channel=%23laserdeathstehr&amp;server=chat1.ustream.tv" pluginspage="http://www.adobe.com/go/getflashplayer" src="http://www.ustream.tv/flash/irc.swf" allowfullscreen="true" />
+				
+				</div>
+				
+			</div>
+		</div>
+		<div class="yui-b">
+			<div id="queuedSongs">
+			<h2>Up Next:</h2>
+			<ol id="queueList">
+			</ol>
+			</div>
+		</div>
+	</div>
+	<div id="ft">
+	<p> This is a test, if you are here you, be warned its rough.....Back end server will check for queued songs every 10 minutes. Submit a MIDI and watch the stream!  Use an existing one or upload your own. To find a MIDI track search using your favourite engine for "Your track name MIDI"  The stream will be offline when I'm not in my apt, as I unplug the hardware to ensure no shorts or anything happen while I'm gone.</p>
+	<p> Once your song is queued, you may have to wait up to 5 minutes before it starts playing</p>
+	<p>NOTE: The lights work based on how the MIDI was created.  If the MIDI was made in a certain way, the lights may just turn on and not do anything else. I'm looking at way around this...</p>
+	</div>
+
+
+
+</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-8053226-3");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</body>
+</html>
