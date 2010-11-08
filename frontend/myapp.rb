@@ -3,8 +3,13 @@ require 'sinatra'
 require 'json'
 require 'dm-core'
 
+
+@config = JSON.parse(File.read('config.json'))
+$index = @config['static']
+$upload = @config['upload']
+puts $upload
 DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/db.sqlite3")
-set :public, ""
+set :public, @index
 set:port, 12599
 class Song
   include DataMapper::Resource
@@ -15,6 +20,7 @@ class Song
   property :queued_at, DateTime
   property :is_playing, Boolean, :default  => false
   property :is_queued, Boolean, :default  => false
+  property :type, String
 end
 
 DataMapper.auto_upgrade!
@@ -48,7 +54,7 @@ get '/queued_songs' do
     songs = Song.all(:is_queued => true,:order => [:queued_at.asc])
     song_list = []
     songs.each do |song|
-    song_list = song_list.push({:id => song.id, :name => song.name})
+    song_list = song_list.push({:id => song.id, :name => song.name, :type => song.type})
     end
     content_type:json
       song_list.to_json
@@ -72,8 +78,18 @@ get '/track_done' do
 end
   
 post '/upload' do
-  FileUtils.mv(params[:file][:tempfile].path, "/home/nstehr/webapps/static/uploads/#{params[:file][:filename]}")
-  song = Song.new(:name => params[:name], :path => "/home/nstehr/webapps/static/uploads/#{params[:file][:filename]}",:queued_at=>Time.now,:is_queued=>true)
+  mimetype = `file -Ib #{params[:file][:tempfile].path}`.gsub(/\n/,"")
+  
+  #audio/mpeg or audio/midi
+  if mimetype.include? "audio/mpeg"
+    file_type = "mp3"
+  end
+  if mimetype.include? "audio/midi"
+    file_type = "midi"
+  end
+  
+  FileUtils.mv(params[:file][:tempfile].path, "#{$upload}/#{params[:file][:filename]}")
+  song = Song.new(:name => params[:name], :path => "#{$upload}/#{params[:file][:filename]}",:queued_at=>Time.now,:is_queued=>true,:type=>file_type)
   song.save
   redirect(back())
 end

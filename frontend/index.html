@@ -27,7 +27,7 @@
 			var dataString = "value="+$('#songOptions').val()
 			
 			$.ajax({
-			    url:"http://mytree.laserdeathstehr.com/queue_song",
+			    url:"queue_song",
 				type: "POST",
 			    data: dataString,
 			    })
@@ -41,7 +41,7 @@
 function fillSongOptions(){
 	//load all the songs via json
 	
-	$.getJSON("http://mytree.laserdeathstehr.com/all_songs",
+	$.getJSON("all_songs",
 	        function(data){
 				$.each(data, function(i,item){
 					
@@ -56,7 +56,7 @@ function fillSongOptions(){
 function getQueuedSongs(){
 	//load all the songs via json
 	
-	$.getJSON("http://mytree.laserdeathstehr.com/queued_songs",
+	$.getJSON("queued_songs",
 	        function(data){
 				$('#queueList').find('li').remove()
 				$.each(data, function(i,item){
@@ -70,7 +70,7 @@ function getQueuedSongs(){
 }
 
 function getNowPlaying(){
-	$.getJSON("http://mytree.laserdeathstehr.com/now_playing",
+	$.getJSON("now_playing",
 	        
 			function(data){
 			
@@ -79,7 +79,7 @@ function getNowPlaying(){
 }
 
 function validateFileExtension(fld) {
-	if(!/(\.mid|\.midi|\.MID|\.MIDI)$/i.test(fld.value)) {
+	if(!/(\.mid|\.midi|\.MID|\.MIDI|\.mp3|\.MP3)$/i.test(fld.value)) {
 		alert("Invalid file type.");
 		fld.form.reset();
 		fld.focus();
@@ -117,7 +117,7 @@ function validateFileExtension(fld) {
 				<div id="songUpload">
 				<br>
 				<p><b>Submit your own song:</b></p>
-				<form id ="uploadForm" name="upload" enctype="multipart/form-data" action="http://mytree.laserdeathstehr.com/upload" method="post" onsubmit="return validateFileExtension(this.file)">
+				<form id ="uploadForm" name="upload" enctype="multipart/form-data" action="upload" method="post" onsubmit="return validateFileExtension(this.file)">
 				Name:
 				<input type="text" name="name" />
 				<br />
@@ -128,9 +128,11 @@ function validateFileExtension(fld) {
 				</div>
 				<br>
 				<br>
-					<embed width="563" height="266" type="application/x-shockwave-flash" flashvars="brandId=1&amp;channelId=2010871&amp;channel=%23laserdeathstehr&amp;server=chat1.ustream.tv" pluginspage="http://www.adobe.com/go/getflashplayer" src="http://www.ustream.tv/flash/irc.swf" allowfullscreen="true" />
+				<!--
+					<embed width="563" height="266" type="application/x-shockwave-flash" flashvars="brandId=1&amp;channelId=2010871&amp;channel=%23laserdeathstehr&amp;server=chat1.ustream.tv" pluginspage="http://www.adobe.com/go/getflashplayer" src="http://www.ustream.tv/flash/irc.swf" allowfullscreen="true" />	-->
 				
 				</div>
+			
 				
 			</div>
 		</div>
@@ -151,6 +153,7 @@ function validateFileExtension(fld) {
 
 
 </div>
+<!--
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -160,5 +163,6 @@ try {
 var pageTracker = _gat._getTracker("UA-8053226-3");
 pageTracker._trackPageview();
 } catch(err) {}</script>
+-->
 </body>
 </html>
