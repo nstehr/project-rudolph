@@ -79,7 +79,7 @@ function getNowPlaying(){
 }
 
 function validateFileExtension(fld) {
-	if(!/(\.mid|\.midi|\.MID|\.MIDI|\.mp3|\.MP3)$/i.test(fld.value)) {
+	if(!/(\.mid|\.midi|\.MID|\.MIDI)$/i.test(fld.value)) {
 		alert("Invalid file type.");
 		fld.form.reset();
 		fld.focus();

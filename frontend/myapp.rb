@@ -20,7 +20,6 @@ class Song
   property :queued_at, DateTime
   property :is_playing, Boolean, :default  => false
   property :is_queued, Boolean, :default  => false
-  property :type, String
 end
 
 DataMapper.auto_upgrade!
@@ -79,18 +78,12 @@ end
   
 post '/upload' do
   mimetype = `file -Ib #{params[:file][:tempfile].path}`.gsub(/\n/,"")
-  
-  #audio/mpeg or audio/midi
-  if mimetype.include? "audio/mpeg"
-    file_type = "mp3"
-  end
+  #server side check to make sure only midi gets through
   if mimetype.include? "audio/midi"
-    file_type = "midi"
+    FileUtils.mv(params[:file][:tempfile].path, "#{$upload}/#{params[:file][:filename]}")
+    song = Song.new(:name => params[:name], :path => "#{$upload}/#{params[:file][:filename]}",:queued_at=>Time.now,:is_queued=>true)
+    song.save
   end
-  
-  FileUtils.mv(params[:file][:tempfile].path, "#{$upload}/#{params[:file][:filename]}")
-  song = Song.new(:name => params[:name], :path => "#{$upload}/#{params[:file][:filename]}",:queued_at=>Time.now,:is_queued=>true,:type=>file_type)
-  song.save
   redirect(back())
 end
 

@@ -2,7 +2,6 @@ import MidiPlayback
 import java.io.File
 import LightController
 import PhidgetsLights
-import BeatDetecter
 import groovyx.net.http.HTTPBuilder
 import static groovyx.net.http.Method.GET
 import static groovyx.net.http.ContentType.JSON
@@ -12,7 +11,7 @@ import static groovyx.net.http.ContentType.TEXT
 def controller = getController(true)
 
 def http = new HTTPBuilder('http://localhost:12599/')
-BeatDetecter.main()
+
 //main loop
 while(true){
 
@@ -27,18 +26,12 @@ http.request( GET, JSON ) {
 	json.each{
 		println it.name
 		
-		if(it.type == 'midi'){
-		    wget("http://localhost:12599/get_song/${it.id}","song.mid")
+            wget("http://localhost:12599/get_song/${it.id}","song.mid")
 		    def player = new MidiPlayback(controller)	
 		    player.sequenceTrack("song.mid")
 		    while(MidiPlayback.stillRunning){Thread.sleep(30)}
-	    }
-	    if(it.type == 'mp3'){
-	        wget("http://localhost:12599/get_song/${it.id}","song.mp3")
-		    BeatDetecter.newSong = true;
-		    BeatDetecter.playing = true;
-		    while(BeatDetecter.playing){Thread.sleep(30)}
-	    }
+	    
+
 		//indicate to the server that the song is done
 		http.request(GET,TEXT){
 			uri.path="/track_done"
