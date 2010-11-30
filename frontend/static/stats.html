@@ -1,0 +1,76 @@
+<html>
+  <head>
+      <title>My Christmas Tree Stats</title>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart","columnchart"]});
+      google.load("jquery", "1.4.2");
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+       //play count data
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Song Name');
+        data.addColumn('number', 'Play Count');
+        
+        $.getJSON("song_stats",function(jsonData){
+            data.addRows(jsonData.length)
+            $.each(jsonData, function(i,item){
+               data.setValue(i,0,item.name)
+               data.setValue(i,1,item.play_count)
+                  })
+                })
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, {width: 640, height: 480, title: 'Play Count Per Song'});
+       
+        //city data
+        var city_data = new google.visualization.DataTable();
+        city_data.addColumn('string', 'City');
+        city_data.addColumn('number', 'Submissions');
+        $.getJSON("city_stats",function(jsonData){
+                city_data.addRows(jsonData.length)
+                $.each(jsonData, function(i,item){
+                   city_data.setValue(i,0,item.city)
+                   city_data.setValue(i,1,item.submit_count)
+                      })
+                    })
+        var city_chart = new google.visualization.PieChart(document.getElementById('city_div'));
+        city_chart.draw(city_data, {width: 640, height: 480, title: 'Submissions By City'});
+                    
+         //time data
+         var time_data = new google.visualization.DataTable();
+         time_data.addColumn('string', 'Hour');
+         time_data.addColumn('number', 'Number of Submissions');
+          $.getJSON("time_stats",function(jsonData){
+              time_data.addRows(jsonData.length)
+                $.each(jsonData, function(i,item){
+                    time_data.setValue(i,0,toNiceTimeString(item.submit_time))
+                    time_data.setValue(i,1,item.submit_count)
+                                  })
+                                })
+                    
+         var time_chart = new google.visualization.ColumnChart(document.getElementById('time_div'));
+         time_chart.draw(time_data, {width: 640, height: 480, title: 'Submissions By Hour (EST)'});
+        
+      }
+      
+    function toNiceTimeString(hour){
+        if(hour > 12 && hour < 24){
+            return (hour-12).toString() + " pm"
+        }
+        else if(hour == 12)
+           return hour.toString() + " pm"
+        else if(hour == 24)
+            return hour.toString() + " am"   
+        else
+           return hour.toString() + " am"
+    }
+    </script>
+  </head>
+
+  <body>
+    <div id="chart_div"></div>
+    <div id="city_div"></div>
+    <div id="time_div"></div>
+    <a href ="/">Back to the tree!</a>
+  </body>
+</html>
