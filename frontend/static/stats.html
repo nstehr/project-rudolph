@@ -18,9 +18,10 @@
                data.setValue(i,0,item.name)
                data.setValue(i,1,item.play_count)
                   })
+                   var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                      chart.draw(data, {width: 640, height: 480, title: 'Play Count Per Song'});
                 })
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, {width: 640, height: 480, title: 'Play Count Per Song'});
+       
        
         //city data
         var city_data = new google.visualization.DataTable();
@@ -32,9 +33,10 @@
                    city_data.setValue(i,0,item.city)
                    city_data.setValue(i,1,item.submit_count)
                       })
+                      var city_chart = new google.visualization.PieChart(document.getElementById('city_div'));
+                      city_chart.draw(city_data, {width: 640, height: 480, title: 'Submissions By City'});
                     })
-        var city_chart = new google.visualization.PieChart(document.getElementById('city_div'));
-        city_chart.draw(city_data, {width: 640, height: 480, title: 'Submissions By City'});
+        
                     
          //time data
          var time_data = new google.visualization.DataTable();
@@ -46,11 +48,12 @@
                     time_data.setValue(i,0,toNiceTimeString(item.submit_time))
                     time_data.setValue(i,1,item.submit_count)
                                   })
+                                  var time_chart = new google.visualization.ColumnChart(document.getElementById('time_div'));
+                                   time_chart.draw(time_data, {width: 640, height: 480, title: 'Submissions By Hour (EST)'});
+                                  
                                 })
                     
-         var time_chart = new google.visualization.ColumnChart(document.getElementById('time_div'));
-         time_chart.draw(time_data, {width: 640, height: 480, title: 'Submissions By Hour (EST)'});
-        
+         
       }
       
     function toNiceTimeString(hour){
