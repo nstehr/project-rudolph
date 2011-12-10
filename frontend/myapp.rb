@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'dm-migrations'
 require 'sinatra'
 require 'json'
 require 'dm-core'
@@ -7,7 +8,7 @@ require 'open-uri'
 @config = JSON.parse(File.read('config.json'))
 @static = @config['static']
 $upload = @config['upload']
-puts $upload
+
 DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/db.sqlite3")
 set :public, @static
 set:port, 12599

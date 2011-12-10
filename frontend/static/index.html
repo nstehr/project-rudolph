@@ -1,107 +1,142 @@
+<!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="http://static.laserdeathstehr.ca/tree_css/reset-fonts-grids.css">
-	<link rel="stylesheet" type="text/css" href="http://static.laserdeathstehr.ca/tree_css/base.css">
+	<link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script type="text/javascript" src="frontend.js"></script>
     <script type="text/javascript">var disqus_developer = 1; // this would set it to developer mode</script>
 
+	<style type="text/css">
+	      body {
+	        padding-top: 60px;
+	      }
+		
+	    </style>
+
 </head>
 
 <body>
-<div id="doc3" class="yui-t4">
 
-	<div id="hd">
-	<h1>Control My Christmas Tree!!!</h1>
-	<p> This is hacked together so be warned its rough.....Back end server will check for queued songs every 10 minutes. Submit a MIDI and watch the stream!  Use an existing one or upload your own. To find a MIDI track search using your favourite engine for "Your track name MIDI"  The stream will be offline when I'm not in my apartment, as I unplug the hardware to ensure no shorts or anything happen while I'm gone.</p>
-	<p> Once your song is queued, you may have to wait up to 5 minutes before it starts playing</p>
-	<p>NOTE: The lights work based on how the MIDI was created.  If the MIDI was made in a certain way, the lights may just turn on and not do anything else. I'm looking at way around this...</p>
-	</div>
-	<div id="bd">
-		<div id="yui-main">
-			<div class="yui-b">
-				<div id="content">
-				<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="400" height="320" id="utv134761"><param name="flashvars" value="autoplay=false&amp;brand=embed&amp;cid=2010871"/><param name="allowfullscreen" value="true"/><param name="allowscriptaccess" value="always"/><param name="movie" value="http://www.ustream.tv/flash/live/1/2010871"/><embed flashvars="autoplay=false&amp;brand=embed&amp;cid=2010871" width="400" height="320" allowfullscreen="true" allowscriptaccess="always" id="utv134761" name="utv_n_851509" src="http://www.ustream.tv/flash/live/1/2010871" type="application/x-shockwave-flash" /></object><a href="http://www.ustream.tv/" style="padding: 2px 0px 4px; width: 400px; background: #ffffff; display: block; color: #000000; font-weight: normal; font-size: 10px; text-decoration: underline; text-align: center;" target="_blank">Live Broadcast by Ustream.TV</a>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="container-fluid">
+        <div class="brand" href="#">Now Playing: <span class="nowPlaying">1234</span></div>
+        
+      </div>
+    </div>
+  </div>
 
-				<b>Now Playing: </b><span class="nowPlaying"></span>
-
-				<div id="selectSong">
-					<br>
-					<p><b>Submit an existing song:</b></p>
-				<select id="songOptions">
-				</select>
-				<input type="submit" value="Submit" id='selectSubmit' />
-				</div>
-				
-				<div id="songUpload">
-				<br>
-				<p><b>Submit your own song:</b></p>
-				<form id ="uploadForm" name="upload" enctype="multipart/form-data" action="upload" method="post" onsubmit="return validateFileExtension(this.file)">
-				Name:
-				<input type="text" name="name" />
-				<br />
-				File:
-				<input type="file" name="file" />
-				<input type="submit" value="Submit" id='uploadSubmit' />
-				</form>
-				</div>
-				<br>
-				<br>
-			
-			    <div id="disqus_thread"></div>
-                <script type="text/javascript">
-                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-                    var disqus_shortname = ''; // required: replace example with your forum shortname
-
-                    // The following are highly recommended additional parameters. Remove the slashes in front to use.
-                    // var disqus_identifier = 'unique_dynamic_id_1234';
-                    // var disqus_url = 'http://example.com/permalink-to-page.html';
-
-                    /* * * DON'T EDIT BELOW THIS LINE * * */
-                    (function() {
-                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                    })();
-                </script>
-                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-                <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
-				
-				</div>
-			
-				
-			</div>
-		</div>
-		<div class="yui-b">
-			<div id="queuedSongs">
+  <div class="container-fluid">
+    <div class="sidebar">
+      <div class="well">
+       	<div id="queuedSongs">
 			<h2>Up Next:</h2>
 			<ol id="queueList">
 			</ol>
 			</div>
-			
+
 			<div id="topSongs">
 			<h2>Top Songs:</h2>
 			<ol id="topList">
 			</ol>
 			<a href="stats">More statistics</a>
 			</div>
+      </div>
+    </div>
+
+    <div class="content">
+     
+      <div class="hero-unit">
+        	<h2>Control My Christmas Tree!</h2>
+			<p> Submit a MIDI and watch the stream!  Use an existing one or upload your own. </p>
+			<p> Once your song is queued, you may have to wait up to 5 minutes before it starts playing</p>
+		
+      </div>
+
+		<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="400" height="320" id="utv134761"><param name="flashvars" value="autoplay=false&amp;brand=embed&amp;cid=2010871"/><param name="allowfullscreen" value="true"/><param name="allowscriptaccess" value="always"/><param name="movie" value="http://www.ustream.tv/flash/live/1/2010871"/><embed flashvars="autoplay=false&amp;brand=embed&amp;cid=2010871" width="400" height="320" allowfullscreen="true" allowscriptaccess="always" id="utv134761" name="utv_n_851509" src="http://www.ustream.tv/flash/live/1/2010871" type="application/x-shockwave-flash" /></object><a href="http://www.ustream.tv/" style="padding: 2px 0px 4px; width: 400px; background: #ffffff; display: block; color: #000000; font-weight: normal; font-size: 10px; text-decoration: underline; text-align: center;" target="_blank">Live Broadcast by Ustream.TV</a>
+
+			<section id="songSubmit">
+			  <div class="page-header">
+			    <h3>Submit Existing Song</h3>
+			  </div>
+			  <div class="row">
+			    <div class="span4">
+			      <p>Choose a song from the dropdown, and then hit submit.  Your song is now added to the queue of songs.</p>
+			    </div>
+			    <div class="span12">
+			      	<select class="xlarge" id="songOptions"></select>
+					<input type="submit" class="btn primary" value="Submit" id='selectSubmit' />
+			    </div>
+			  </div>
+		</section>
+		
+		<section id="songUpload">
+		  <div class="page-header">
+		    <h3>Submit Your Own Song</h3>
+		  </div>
+		  <div class="row">
+		    <div class="span4">
+		      <p>Upload a song in midi format.  You can find a midi version of your favourite song my plugging "song name midi" 
+			into your search engine of choice</p>
+		    </div>
+		    <div class="span12">
+		      <form id ="uploadForm" name="upload" enctype="multipart/form-data" action="upload" method="post" onsubmit="return validateFileExtension(this.file)">
+		      
+		          <div class="clearfix">
+		            <div>
+		              Song name: <input class="xlarge" type="text" name="name" />
+					 	<input size="30"type="file" name="file" />
+						<input type="submit" class="btn primary" value="Submit" id='uploadSubmit' />
+		            </div>
+		          </div>
+		        
+				
+		      </form>
+		    </div>
+		  </div>
+		</section>
+
+		<div class="page-header">
+		    <h3>Comments</h3>
+		  </div>
+		<div class="row">
+		    <div class="span16">
+				 <div id="disqus_thread"></div>
+				                <script type="text/javascript">
+				                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+				                    var disqus_shortname = 'mychristmastree'; // required: replace example with your forum shortname
+
+				                    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+				                    // var disqus_identifier = 'unique_dynamic_id_1234';
+				                    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+				                    /* * * DON'T EDIT BELOW THIS LINE * * */
+				                    (function() {
+				                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+				                        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+				                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+				                    })();
+				                </script>
+				                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+				                <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+			</div>
 		</div>
-	</div>
-	
 
+	   
 
+		
 
-</div>
-<!--
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-8053226-3");
-pageTracker._trackPageview();
-} catch(err) {}</script>
--->
+   	<!--
+		<script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+		<script type="text/javascript">
+		try {
+		var pageTracker = _gat._getTracker("UA-8053226-3");
+		pageTracker._trackPageview();
+		} catch(err) {}</script>
+		-->
+
 </body>
 </html>
