@@ -25,9 +25,13 @@
 		    url:"queue_song",
 			type: "POST",
 		    data: dataString,
+		    success: function(){
+			$("#submitAlert").fadeIn().delay(1000).fadeOut();
+			getQueuedSongs()
+		}
 		    })
 		
-		getQueuedSongs()
+		
 	})
 	
 	

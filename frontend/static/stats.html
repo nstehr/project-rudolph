@@ -1,10 +1,12 @@
 <html>
   <head>
+	  <link rel="stylesheet/less" href="less/bootstrap.less" media="all" />
       <title>My Christmas Tree Stats</title>
+    <script src="http://lesscss.googlecode.com/files/less-1.1.5.min.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart","columnchart"]});
-      google.load("jquery", "1.4.2");
+      google.load("jquery", "1.7.1");
       google.setOnLoadCallback(drawChart);
       function drawChart() {
        //play count data
@@ -19,7 +21,7 @@
                data.setValue(i,1,item.play_count)
                   })
                    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-                      chart.draw(data, {width: 640, height: 480, title: 'Play Count Per Song'});
+                      chart.draw(data, {width: 640, height: 480, title: '',backgroundColor:"#F8F8EC"});
                 })
        
        
@@ -34,7 +36,7 @@
                    city_data.setValue(i,1,item.submit_count)
                       })
                       var city_chart = new google.visualization.PieChart(document.getElementById('city_div'));
-                      city_chart.draw(city_data, {width: 640, height: 480, title: 'Submissions By City'});
+                      city_chart.draw(city_data, {width: 640, height: 480, title: '',backgroundColor:"#F8F8EC"});
                     })
         
                     
@@ -49,7 +51,7 @@
                     time_data.setValue(i,1,item.submit_count)
                                   })
                                   var time_chart = new google.visualization.ColumnChart(document.getElementById('time_div'));
-                                   time_chart.draw(time_data, {width: 640, height: 480, title: 'Submissions By Hour (EST)'});
+                                   time_chart.draw(time_data, {width: 640, height: 480, title: '',backgroundColor:"#F8F8EC"});
                                   
                                 })
                     
@@ -68,12 +70,64 @@
            return hour.toString() + " am"
     }
     </script>
+
+	<style type="text/css">
+	      body {
+	        padding-top: 60px;
+	      }
+		
+	    </style>
+	
   </head>
 
   <body>
-    <div id="chart_div"></div>
-    <div id="city_div"></div>
-    <div id="time_div"></div>
-    <a href ="/">Back to the tree!</a>
+	<div class="topbar">
+	    <div class="topbar-inner">
+	      <div class="container-fluid">
+	        <div class="brand" href="#">Statistics</div>
+			<ul class="nav">
+			            <li class="active"><a href="/">Home</a></li>
+			            
+			          </ul>
+	      </div>
+	    </div>
+	  </div>
+	
+	<div class="container-fluid">
+		
+		<section id="track_section">
+		  <div class="page-header">
+		    <h1>Play Count Per Song <small>The number of times a song has been played</small></h1>
+		  </div>
+		<div class="row">
+		        <div class="span16">
+    				<div id="chart_div"></div>
+				</div>
+		</div>
+	</section>
+	
+	<section id="city_section">
+	  <div class="page-header">
+	    <h1>Submissions By City <small>The number of songs submitted by a given city</small></h1>
+	  </div>
+		<div class="row">
+		<div class="span16">
+    		<div id="city_div"></div>
+		</div>
+		</div>
+	</section>
+	
+	<section id="time_section">
+	  <div class="page-header">
+	    <h1>Submissions By Hour <small>The number of songs submitted at a given time (EST)</small></h1>
+	  </div>	
+		<div class="row">
+		<div class="span16">
+    		<div id="time_div"></div>
+		</div>
+		</div>
+	</section>
+
+	</div>
   </body>
 </html>

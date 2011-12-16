@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
+	<title>mytree.laserdeathstehr.com</title>
+	<link rel="stylesheet/less" href="less/bootstrap.less" media="all" />
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script type="text/javascript" src="frontend.js"></script>
-    <script type="text/javascript">var disqus_developer = 1; // this would set it to developer mode</script>
+    <script src="http://lesscss.googlecode.com/files/less-1.1.5.min.js"></script>
+    
 
 	<style type="text/css">
 	      body {
@@ -17,10 +19,14 @@
 
 <body>
 
+	<div id="submitAlert" class="alert-message success hide" data-alert="alert" style="top:0">
+	            <p>Song added successfully!</p>
+	        </div>
+
   <div class="topbar">
     <div class="topbar-inner">
       <div class="container-fluid">
-        <div class="brand" href="#">Now Playing: <span class="nowPlaying">1234</span></div>
+        <div class="brand" href="#">Now Playing: <span class="nowPlaying"></span></div>
         
       </div>
     </div>
